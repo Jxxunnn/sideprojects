@@ -7,70 +7,57 @@ import img3 from "./3.jpeg";
 import img4 from "./4.jpeg";
 
 function RollingBanner() {
-  let [버튼표시, 버튼표시변경] = useState(true);
-  let [배너이미지, 배너이미지변경] = useState(0);
-  let bannerArray = [img1, img2, img3, img4];
-  let history = useNavigate();
+  let [버튼표시, 버튼표시변경] = useState(false);
+  let [몇번째, 몇번째변경] = useState(0);
+  let [배너이미지, 배너이미지변경] = useState([img1, img2, img3, img4]);
 
-  // useEffect(() => {
-  //   let timer = setInterval(() => {
-  //     if (배너이미지 < 3) {
-  //       배너이미지변경(배너이미지++);
-  //     } else {
-  //       배너이미지변경(0);
-  //     }
-  //     console.log(배너이미지);
-  //   });
-  // }, []);
+  useEffect(() => {
+    let timer = setInterval(changeImgRight, 2000);
+  }, []);
+
+  function changeImgLeft() {
+    if (몇번째 < 0) {
+      몇번째변경(3);
+    } else {
+      몇번째변경(몇번째--);
+    }
+    console.log(몇번째);
+  }
+
+  function changeImgRight() {
+    if (몇번째 > 3) {
+      몇번째변경(0);
+    } else {
+      몇번째변경(몇번째++);
+    }
+    console.log(몇번째);
+  }
 
   return (
-    <div
-      className="banner"
-      onMouseOver={() => {
-        버튼표시변경(true);
-      }}
-      onMouseLeave={() => {
-        버튼표시변경(false);
-      }}
-      style={{ backgroundImage: `url(${bannerArray[배너이미지]})` }}
-      onClick={(e) => {
-        history(`/${배너이미지}`);
-        console.log(e.target);
-        console.log(e.currentTarget);
-      }}
-    >
-      <h1>롤링 배너 만들기</h1>
-
-      {버튼표시 === true && (
-        <div className="btn-box">
-          <button
-            type="button"
-            className="btn-left"
-            onClick={(e) => {
-              if (배너이미지 > 0) {
-                배너이미지변경(배너이미지--);
-              }
-              console.log(e);
-
-              console.log(배너이미지);
-            }}
-          >
-            ◀
-          </button>
-          <button
-            type="button"
-            className="btn-right"
-            onClick={(e) => {
-              배너이미지변경(배너이미지++);
-              console.log(배너이미지);
-              console.log(e);
-            }}
-          >
-            ▶
-          </button>
-        </div>
-      )}
-      <h1>{`(${배너이미지 + 1}/4)`}</h1>
+    <div className="container">
+      <div
+        className="banner"
+        style={{ backgroundImage: `url(${배너이미지[몇번째]})` }}
+        onMouseOver={() => {
+          버튼표시변경(true);
+        }}
+        onMouseLeave={() => {
+          버튼표시변경(false);
+        }}
+      >
+        <h1>롤링 배너 만들기</h1>
+        <h3>{`(${몇번째 + 1}/4)`}</h3>
+        {버튼표시 == true ? (
+          <>
+            <button onClick={changeImgLeft} className="left">
+              ◀
+            </button>
+            <button onClick={changeImgRight} className="right">
+              ▶
+            </button>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }
