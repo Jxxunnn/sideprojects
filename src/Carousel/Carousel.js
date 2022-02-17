@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./Carousel.module.css";
 import img1 from "./1.jpeg";
