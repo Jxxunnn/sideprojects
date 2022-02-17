@@ -11,19 +11,18 @@ function Carousel() {
   const [배너, 배너변경] = useState([img1, img2, img3, img4]);
   const [현재슬라이드, 현재슬라이드변경] = useState(0);
   const [width, setWidth] = useState(0);
-  const [x, x변경] = useState(0);
   const bannerWidthRef = useRef();
-  const countRef = useRef(1);
 
   const prevSlide = () => {
+    setWidth(-bannerWidthRef.current.offsetWidth);
     if (현재슬라이드 > 0) {
       현재슬라이드변경(현재슬라이드 - 1);
     } else {
       현재슬라이드변경(배너.length - 1);
     }
-    console.log(현재슬라이드);
   };
   const nextSlide = () => {
+    setWidth(-bannerWidthRef.current.offsetWidth);
     if (현재슬라이드 < 3) {
       현재슬라이드변경(현재슬라이드 + 1);
     } else {
@@ -31,9 +30,9 @@ function Carousel() {
     }
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     setWidth(-bannerWidthRef.current.offsetWidth);
-  }, [현재슬라이드]);
+  }, [현재슬라이드]); */
 
   return (
     <div className={styles.container}>
