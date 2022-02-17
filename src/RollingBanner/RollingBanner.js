@@ -1,6 +1,8 @@
+/* eslint-disable */
+
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./RollingBanner.css";
+import styles from "./RollingBanner.module.css";
 import img1 from "./1.jpeg";
 import img2 from "./2.jpeg";
 import img3 from "./3.jpeg";
@@ -10,10 +12,12 @@ function RollingBanner() {
   let [버튼표시, 버튼표시변경] = useState(false);
   let [몇번째, 몇번째변경] = useState(0);
   let [배너이미지, 배너이미지변경] = useState([img1, img2, img3, img4]);
+  let timer;
 
-  useEffect(() => {
-    let timer = setInterval(changeImgRight, 2000);
+  /*  useEffect(() => {
+    timer = setInterval(changeImgRight, 2000);
   }, []);
+  clearInterval(timer); */
 
   function changeImgLeft() {
     if (몇번째 < 0) {
@@ -34,9 +38,9 @@ function RollingBanner() {
   }
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       <div
-        className="banner"
+        className={styles.banner}
         style={{ backgroundImage: `url(${배너이미지[몇번째]})` }}
         onMouseOver={() => {
           버튼표시변경(true);
@@ -49,10 +53,10 @@ function RollingBanner() {
         <h3>{`(${몇번째 + 1}/4)`}</h3>
         {버튼표시 == true ? (
           <>
-            <button onClick={changeImgLeft} className="left">
+            <button onClick={changeImgLeft} className={styles.left}>
               ◀
             </button>
-            <button onClick={changeImgRight} className="right">
+            <button onClick={changeImgRight} className={styles.right}>
               ▶
             </button>
           </>
