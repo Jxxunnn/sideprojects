@@ -13,35 +13,94 @@ const StyledButton = styled.button`
   margin-bottom: 10px;
 `;
 const StyledDiv = styled.div``;
+const StyledBtnBox = styled.div`
+  display: flex;
+`;
 
 const StyledModal = styled.div``;
 
 function Todos() {
+  //로그인 관련
   const [isModal, setIsModal] = useState(false);
   const [isLoginWindow, setIsLoginWindow] = useState(true);
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState(0);
+  const [users, setUsers] = useState([]);
+  const [isUser, setIsUser] = useState(false);
+
+  //투두리스트 관련
+
+  const [todo, setTodo] = useState("");
+  const [todoList, setTodoList] = useState([]);
+  const [isTodo, setIsTodo] = useState(false);
+
+  //투두리스트 관련 함수
+
+  const paintTodo = () => {
+    let array = [...todoList];
+    array.push(todo);
+    setTodoList(array);
+    console.log(todoList);
+  };
+
+  //로그인 관련 함수
 
   const showSignUpModal = () => {
     setIsModal(true);
     setIsLoginWindow(false);
   };
   const saveSignUpData = () => {
-    localStorage.setItem("user");
+    const array = [...users];
+    array.push({ id: userId, password: userPassword });
+    setUsers(array);
+    console.log(users);
+    localStorage.setItem("users", JSON.stringify(users));
+    setUserId("");
+    setUserPassword(0);
+  };
+
+  const logIn = () => {
+    const myLocalStrage = JSON.parse(localStorage.getItem("users"));
+    console.log(isUser);
+
+    const found = myLocalStrage.find(
+      (e) => e.id == userId && e.password == userPassword
+    );
+
+    if (found == undefined) {
+      alert("로그인 실패");
+    } else {
+      setIsUser(true);
+      alert(`환영합니다 ${userId}님!`);
+    }
   };
 
   return (
     <>
-      {isLoginWindow === true && (
+      {isLoginWindow === true && isUser === false ? (
         <StyledDiv>
-          <h1>todos and log-in</h1>
+          <h1>todos</h1>
           <h2>ID 로그인</h2>
-          <StyledInput type="text" placeholder="아이디"></StyledInput>
-          <StyledInput type="password" placeholder="비밀번호"></StyledInput>
-          <StyledButton>로그인</StyledButton>
+          <StyledInput
+            onChange={(e) => {
+              setUserId(e.target.value);
+              console.log(userId);
+            }}
+            type="text"
+            placeholder="아이디"
+          ></StyledInput>
+          <StyledInput
+            onChange={(e) => {
+              setUserPassword(e.target.value);
+            }}
+            type="password"
+            placeholder="비밀번호"
+            minlength="4"
+          ></StyledInput>
+          <StyledButton onClick={logIn}>로그인</StyledButton>
           <StyledButton onClick={showSignUpModal}>회원가입</StyledButton>
         </StyledDiv>
-      )}
+      ) : null}
 
       {isModal === true && (
         <StyledModal>
@@ -49,6 +108,7 @@ function Todos() {
           <StyledInput
             onChange={(e) => {
               setUserId(e.target.value);
+              console.log(userId);
             }}
             type="text"
             placeholder="새로운 아이디"
@@ -56,9 +116,11 @@ function Todos() {
           <StyledInput
             onChange={(e) => {
               setUserPassword(e.target.value);
+              console.log(userPassword);
             }}
             type="password"
             placeholder="새로운 비밀번호"
+            minlength="4"
           ></StyledInput>
           <StyledButton onClick={saveSignUpData}>확인</StyledButton>
           <button
@@ -70,6 +132,23 @@ function Todos() {
             닫기
           </button>
         </StyledModal>
+      )}
+      {isUser === true && (
+        <>
+          <h1>todos</h1>
+          <input
+            onKeyDown={(e) => {
+              setTodo(e.target.value);
+              if (e.key === "Enter") {
+                paintTodo();
+              }
+            }}
+            type="text"
+            placeholder="What needs to be done?"
+          ></input>
+          <button onClick={paintTodo}>+</button>
+          <ul>{isTodo === true && <h1>하이</h1>}</ul>
+        </>
       )}
     </>
   );
@@ -91,3 +170,10 @@ todo창으로 넘어가자.
 
 /* 인터넷에 로그인 기능 구현, 투두리스트 기능 구현한 코드 참고하여
 답을 맞춰보자! */
+
+// 나중에 개선하고 싶은사항들.
+
+/* 
+1.새로고침 했을 때 로그인 창으로 안돌아가게 하기. useRef를 사용하면 딜 것 같다.
+2.각 유저의 데이터 키를 user(i)로 주고, 투두 리스트를 오브젝트 안에 담으면 로그인 한 유저의
+저장된 투두리스트를 보여줄 수 있을 것 같다.  */
