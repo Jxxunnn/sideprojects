@@ -40,7 +40,9 @@ function Todos() {
     let array = [...todoList];
     array.push(todo);
     setTodoList(array);
-    console.log(todoList);
+    if (todoList.length > 0) {
+      setIsTodo(true);
+    }
   };
 
   //로그인 관련 함수
@@ -147,7 +149,19 @@ function Todos() {
             placeholder="What needs to be done?"
           ></input>
           <button onClick={paintTodo}>+</button>
-          <ul>{isTodo === true && <h1>하이</h1>}</ul>
+          {isTodo === true && (
+            <ul>
+              {todoList.map((a, i) => {
+                return (
+                  <li>
+                    {a}
+                    <span>👍</span>
+                    <span>❌</span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </>
       )}
     </>
