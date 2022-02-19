@@ -27,6 +27,7 @@ function Todos() {
   const [userPassword, setUserPassword] = useState(0);
   const [users, setUsers] = useState([]);
   const [isUser, setIsUser] = useState(false);
+  const [isFinish, setIsFinish] = useState([]);
 
   //투두리스트 관련
 
@@ -36,11 +37,17 @@ function Todos() {
 
   //투두리스트 관련 함수
 
+  const finishTodo = () => {
+    setIsFinish(!isFinish);
+  };
+
+  const deleteTodo = () => {};
+
   const paintTodo = () => {
     let array = [...todoList];
     array.push(todo);
     setTodoList(array);
-    if (todoList.length > 0) {
+    if (todoList.length >= 0) {
       setIsTodo(true);
     }
   };
@@ -139,7 +146,7 @@ function Todos() {
         <>
           <h1>todos</h1>
           <input
-            onKeyDown={(e) => {
+            onKeyUp={(e) => {
               setTodo(e.target.value);
               if (e.key === "Enter") {
                 paintTodo();
@@ -148,15 +155,34 @@ function Todos() {
             type="text"
             placeholder="What needs to be done?"
           ></input>
-          <button onClick={paintTodo}>+</button>
+          <button
+            onClick={() => {
+              paintTodo();
+            }}
+          >
+            +
+          </button>
           {isTodo === true && (
             <ul>
               {todoList.map((a, i) => {
                 return (
                   <li>
-                    {a}
-                    <span>👍</span>
-                    <span>❌</span>
+                    <span
+                      style={{
+                        textDecoration:
+                          isFinish[i] === true ? "line-through" : "none",
+                      }}
+                    >
+                      {a}
+                    </span>
+                    <span onClick={(e) => {}}>👍</span>
+                    <span
+                      onClick={(e) => {
+                        e.target.parentNode.remove();
+                      }}
+                    >
+                      ❌
+                    </span>
                   </li>
                 );
               })}
@@ -167,6 +193,11 @@ function Todos() {
     </>
   );
 }
+//text-decoration:line-through
+//setIsFinish[i](!isFinish);
+/*  let array = [...isFinish];
+                array.push(false);
+                setIsFinish(array); */
 
 export default Todos;
 
