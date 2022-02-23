@@ -1,13 +1,9 @@
 import axios from "axios";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Tr from "./Tr";
 
 function Board() {
   const [info, setInfo] = useState([]);
-  const [modalOn, setModalOn] = useState(false);
-  const [selected, setSelected] = useState("");
-
-  const nextId = useRef(11);
 
   useEffect(() => {
     axios
@@ -16,59 +12,8 @@ function Board() {
       .catch((err) => console.log(err));
   }, []);
 
-  const handleSave = (data) => {
-    if (data.id) {
-      setInfo(
-        info.map((row) =>
-          data.id === row.id
-            ? {
-                id: data.id,
-                name: data.name,
-                email: data.emalil,
-                phone: data.phone,
-                website: data.website,
-              }
-            : row
-        )
-      );
-    } else {
-      setInfo(
-        info.concat({
-          id: nextId.current,
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          website: data.website,
-        })
-      );
-      nextId.current += 1;
-    }
-  };
-
   const handleRemove = (id) => {
     setInfo((info) => info.filter((item) => item.id !== id));
-  };
-
-  const handleEdit = (item) => {
-    setModalOn(true);
-    const selectedData = {
-      id: item.id,
-      name: item.name,
-      email: item.email,
-      phone: item.phone,
-      website: item.website,
-    };
-    console.log(selectedData);
-    setSelected(selectedData);
-  };
-
-  const handleCancel = () => {
-    setModalOn(false);
-  };
-  const handleEditSubmit = (item) => {
-    console.log(item);
-    handleSave(item);
-    setModalOn(false);
   };
 
   return (
@@ -88,14 +33,14 @@ function Board() {
             <th className="text-gray-300 px-4 py-3">Delete</th>
           </tr>
         </thead>
-        <Tr
-          info={info}
-          handleRemove={handleRemove}
-          handleEdit={handleEdit}
-        ></Tr>
+        <Tr info={info} handleRemove={handleRemove}></Tr>
       </table>
     </div>
   );
 }
 
 export default Board;
+
+// tailwind 사용법도 좀 익히고
+// CRUD 차근차근 먼저 해본 다음에 따라해보자.
+// 먼저 데이터 받아오고 기본화면 만들고 삭제 기능 부터.
