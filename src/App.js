@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.css";
-import Carousel from "./Carousel/Carousel";
-import Todos from "./Todos/Todos";
+
+import TableBoard from "./TableBoard/TableBoard";
 
 function App() {
   return (
     <div className="App">
-      <Todos></Todos>
+      <TableBoard></TableBoard>
     </div>
   );
 }

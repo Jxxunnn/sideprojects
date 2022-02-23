@@ -172,7 +172,6 @@ function Todos() {
                     <span>{a}</span>
                     <span
                       onClick={(e) => {
-                        console.log(e);
                         e.target.previousSibling.style.textDecoration =
                           "line-through";
                       }}
