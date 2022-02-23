@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.css";
 
-import TableBoard from "./TableBoard/TableBoard";
+import Board from "./Board/Board";
 
 function App() {
   return (
     <div className="App">
-      <TableBoard></TableBoard>
+      <Board></Board>
     </div>
   );
 }
