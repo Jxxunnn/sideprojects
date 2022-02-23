@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const StyledInput = styled.input`
@@ -27,15 +27,17 @@ function Todos() {
   const [userPassword, setUserPassword] = useState(0);
   const [users, setUsers] = useState([]);
   const [isUser, setIsUser] = useState(false);
-  const [isFinish, setIsFinish] = useState([]);
 
   //투두리스트 관련
 
   const [todo, setTodo] = useState("");
   const [todoList, setTodoList] = useState([]);
   const [isTodo, setIsTodo] = useState(false);
+  const [isFinish, setIsFinish] = useState([]);
 
   //투두리스트 관련 함수
+
+  useEffect(() => {}, [todoList]);
 
   const finishTodo = () => {
     setIsFinish(!isFinish);
@@ -167,15 +169,16 @@ function Todos() {
               {todoList.map((a, i) => {
                 return (
                   <li>
+                    <span>{a}</span>
                     <span
-                      style={{
-                        textDecoration:
-                          isFinish[i] === true ? "line-through" : "none",
+                      onClick={(e) => {
+                        console.log(e);
+                        e.target.previousSibling.style.textDecoration =
+                          "line-through";
                       }}
                     >
-                      {a}
+                      👍
                     </span>
-                    <span onClick={(e) => {}}>👍</span>
                     <span
                       onClick={(e) => {
                         e.target.parentNode.remove();
