@@ -6,14 +6,13 @@ function Board() {
   const [info, setInfo] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
+    axios("https://jsonplaceholder.typicode.com/users")
       .then((res) => setInfo(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   const handleRemove = (id) => {
-    setInfo((info) => info.filter((item) => item.id !== id));
+    setInfo((info) => info.filter((data) => data.id !== id));
   };
 
   return (
