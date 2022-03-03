@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 
-import Board from "./Board/Board";
+import Board from "./Board2/Board";
 
 function App() {
   return (
