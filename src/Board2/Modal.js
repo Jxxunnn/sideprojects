@@ -1,6 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 
-function Modal() {
+function Modal({ selectedData, handleCancel, handleEditSubmit }) {
+  const [edited, setEdited] = useState(selectedData);
+  const onCancel = () => {
+    handleCancel();
+  };
+  const onEditChange = (e) => {
+    setEdited({
+      ...edited,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const onSubmitEdit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-70">
       <div className="bg-white rounded shadow-lg w-10/12 md:w-1/3">
@@ -8,7 +22,7 @@ function Modal() {
           <h3 className="font-semibold text-lg">고객 정보 수정하기</h3>
           <span className="block">❌</span>
         </div>
-        <form>
+        <form onSubmit={onSubmitEdit}>
           <div className="p-3 text-left">
             <div>ID:3</div>
             <div>
